@@ -20,11 +20,15 @@ I don't expect to update this very often, but if you find a bug let me know and 
 
 ## 🔧 Installation
 Open up your terminal and install the pypi package with:
-> `pip install funPIL`  
+```console
+pip install funPIL
+```
 
 This package requires `pillow` and `numpy` too.  
-> `pip install Pillow`
-> `pip install numpy`
+```console
+pip install Pillow
+pip install numpy
+```
 
 And you're good to go.
 
@@ -32,7 +36,9 @@ And you're good to go.
 
 I'ts a very simple module to use.
 Just write this on top of your code:
-> `from funPIL import df`  
+```python
+from funPIL import df
+```
 
 Why `df` and not `fp`?
 > `"fp" is an old C moniker for "file pointer"`  
@@ -42,8 +48,10 @@ Why `df` and not `fp`?
 And the keys are near on keyboard.  
 
 But you can use any alias you want:  
->`from funPIL import df as sadPIL`    
->`from funPIL import df as helloWorld`  
+```python
+from funPIL import df as sadPIL
+from funPIL import df as helloWorld
+```
 
 Most of the functions are supposed to speed up your work with less code. It's only based on my experience and needs tho. Say you need a method to resize an image within a size but keeping the ratio, I got you.  
 You want to invert the colors of the whole canvas? Hold up chief.  
