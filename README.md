@@ -20,7 +20,7 @@ I don't expect to update this very often, but if you find a bug let me know and 
 
 ## 🔧 Installation
 Open up your terminal and install the pypi package with:
-```console
+```cmd
 pip install funPIL
 ```
 
