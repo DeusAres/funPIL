@@ -3,7 +3,7 @@
 [![PyPI version](https://badge.fury.io/py/funPIL.svg)](https://badge.fury.io/py/funPIL)  
 
 ## 🎈 A collection of PIL, Numpy and OpenCV functions to manipulate images
-------
+
 
 (Previously drawerFunctions, changed the name because `yes`)
 
@@ -19,11 +19,11 @@ An ImageDraw object is required for drawing text and polygons. Operating on an I
 I don't expect to update this very often, but if you find a bug let me know and don't esitate to make pull requests to extend the scripts
 
 ## 🔧 Installation
-------
+
 `pip install funPIL`  
 
 ## 🎨 Usage
-------
+
 I'ts a very simple module to use.
 Just write this on top of your code
 
@@ -45,7 +45,7 @@ You want to invert the colors of the whole canvas? Hold up chief.
 If someone needs it, just ask it in the issue tab and I'll try to add it, hopefully my skills and enough google will bring it to you. 
 
 ## 👷 Troubleshooting
-------
+
 I'm still learning how to mantain a package correctly and while still updating github and pypi.
 If you encounter an error don't esitate to hit the issue tab and report.
 I will try to fix it ASAP
@@ -53,5 +53,5 @@ I will try to fix it ASAP
 
 
 ## 💊 Is the name a joke?
-------
+
 [Maybe it was intended](https://www.urbandictionary.com/define.php?term=fun%20pills)
