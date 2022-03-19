@@ -41,7 +41,7 @@ from funPIL import df
 ```
 
 Why `df` and not `fp`?
-> "fp" is an old C moniker for "file pointer"
+> "fp" is an old C moniker for "file pointer"  
 > –LSerni, stackoverflow
 
 `df` also stands for drawerFunctions, the old name.  
