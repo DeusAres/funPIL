@@ -1,6 +1,6 @@
 # funPIL  
 
-[![PyPI version](https://badge.fury.io/py/funPIL.svg)](https://badge.fury.io/py/funPIL)  
+[![PyPI version](https://badge.fury.io/py/funPIL.svg)](https://badge.fury.io/py/funPIL)[![Downloads](https://pepy.tech/badge/funpil)](https://pepy.tech/project/funpil)  
 
 ## 🎈 A collection of PIL, Numpy and OpenCV functions to manipulate images
 

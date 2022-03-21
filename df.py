@@ -379,10 +379,12 @@ def getSize(text_string, font):
     Get size of single line text
     text_string: string
     font: font object
-    return text_width, text_height
     # https://stackoverflow.com/a/46220683/9263761
-    ascent, descent = font.getmetrics()
 
+    return text_width, text_height
+    """
+    """
+    ascent, descent = font.getmetrics()
     text_width = font.getmask(text_string).getbbox()[2]
     text_height = font.getmask(text_string).getbbox()[3] - ascent - descent
     """
@@ -518,6 +520,10 @@ def blurImage(image, radius):
 def roundCorners(im, rad):
     """
     Rounds the corners of an image to given radius
+    im: Image object
+    rad: radius of edges
+
+    return Image
     """
     mask = Image.new("L", im.size)
     if rad > min(*im.size) // 2:
@@ -543,10 +549,12 @@ def roundCorners(im, rad):
 def roundCornersAngles(im, rad, angles):
     """
     Rounds only specific corners of the image
-    im: image object
+    im: Image object
     rad: radius
     angles: list of numbers from 1 to 4, clockwise, starting from the upper left
     just pass the corners you want to be rounded
+
+    return Image
     """
     circle = Image.new("L", (rad * 2, rad * 2), 0)
     draw = ImageDraw.Draw(circle)
@@ -571,8 +579,10 @@ def roundCornersAngles(im, rad, angles):
 def fillWithColor(image, color):
     """
     Fill the entire canvas or png with one color
-    img: image object
+    img: Image object
     color: color to use
+
+    return Image
     """
     image = image.convert("RGBA")
     alpha = image.getchannel("A")
