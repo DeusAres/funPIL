@@ -333,6 +333,20 @@ def drawMultiLine(
 
 
 def drawMultiline(x, y, draw, text, font, anchor, spacing, align):
+    """
+    Draws multiple line of text
+    x : int coordinate
+    y : int coordinate
+    draw : ImageDraw object
+    text : str with \n or list[str]
+    font : ImageFont object
+    anchor : str
+    - #https://pillow.readthedocs.io/en/stable/handbook/text-anchors.html#text-anchors
+    - reference to this for anchor points
+    - avoid top, use ascent, broken because Pillow????
+
+    return ImageDraw object
+    """
     if type(text) in [list, tuple]:
         text = "\n".join(text)
     return draw.multiline_text((x,y), text, font=font, anchor=anchor, spacing=spacing, align=align)
@@ -402,8 +416,13 @@ def getSize(text_string, font):
 
 def getSizeMultiline(text, font):
     """
+    Get sizes of a multiline text
     Substitute to getMultipleSize
-    text
+
+    text : str with \n or list[str]
+    font : ImageFont
+
+    return width, height
     """
     if type(text) in [list, tuple]:
         text = "\n".join(text)
