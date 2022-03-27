@@ -304,7 +304,7 @@ def drawMultiLine(
     stroke_color: color of stroke
     space: add more space between each line of text
     """
-
+    print('This method will be deprecated, use drawMultiline instead')
     values = getMultipleSize(phrase_wrapped, font)
     height, _, spaces = values[1], values[2], values[3]
 
@@ -330,6 +330,12 @@ def drawMultiLine(
         return image
     else:
         return draw
+
+
+def drawMultiline(x, y, draw, text, font, anchor, spacing, align):
+    if type(text) in [list, tuple]:
+        text = "\n".join(text)
+    return draw.multiline_text((x,y), text, font=font, anchor=anchor, spacing=spacing, align=align)
 
 
 def fitSize(fontPath, message, canvasW):
@@ -388,12 +394,20 @@ def getSize(text_string, font):
     text_width = font.getmask(text_string).getbbox()[2]
     text_height = font.getmask(text_string).getbbox()[3] - ascent - descent
     """
-    ascent, descent = font.getmetrics()
     text_width, text_height = font.getsize(text_string)
 
     #return (text_width, text_height-descent)
     return (text_width, text_height)
 
+
+def getSizeMultiline(text, font):
+    """
+    Substitute to getMultipleSize
+    text
+    """
+    if type(text) in [list, tuple]:
+        text = "\n".join(text)
+    return font.getsize_multiline(text)
 
 
 def getMultipleSize(text_wrapped, font):
@@ -405,6 +419,7 @@ def getMultipleSize(text_wrapped, font):
     return max_width, max_height of one line,
     total max_height, total spaces
     """
+    print('This method will be deprecated, use getSizeMultiline instead')
 
     max_width, max_height = 0, 0
     for i in range(len(text_wrapped)):
@@ -417,8 +432,10 @@ def getMultipleSize(text_wrapped, font):
         if height > max_height:
             max_height = height
 
-    spaces = int(max_height / 4)
-    max_single_height = max_height
+    ascent, descent = font.getmetrics()
+    spaces = descent + ascent
+    max_single_height = getSize('M', font)[1]
+    #max_single_height = max_height
     max_height = max_height * len(text_wrapped) + spaces * (len(text_wrapped) - 1)
 
     return max_width, max_single_height, max_height, spaces
@@ -1108,3 +1125,5 @@ def roundCorners(im, rad):
     return im
 
     """
+
+
