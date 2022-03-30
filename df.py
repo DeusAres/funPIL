@@ -332,7 +332,7 @@ def drawMultiLine(
         return draw
 
 
-def drawMultiline(x, y, draw, text, font, anchor, spacing, align):
+def drawMultiline(x, y, draw, text, font, color, anchor='la', spacing=0, align='left'):
     """
     Draws multiple line of text
     x : int coordinate
@@ -341,15 +341,17 @@ def drawMultiline(x, y, draw, text, font, anchor, spacing, align):
     text : str with \n or list[str]
     font : ImageFont object
     anchor : str
-    - #https://pillow.readthedocs.io/en/stable/handbook/text-anchors.html#text-anchors
-    - reference to this for anchor points
-    - avoid top, use ascent, broken because Pillow????
+        - #https://pillow.readthedocs.io/en/stable/handbook/text-anchors.html#text-anchors
+        - reference to this for anchor points
+        - avoid top, use ascent, broken because Pillow????
+    spacing : int space between text
+    align : str (left, center, right)
 
     return ImageDraw object
     """
     if type(text) in [list, tuple]:
         text = "\n".join(text)
-    return draw.multiline_text((x,y), text, font=font, anchor=anchor, spacing=spacing, align=align)
+    return draw.multiline_text((x,y), text, fill=color, font=font, anchor=anchor, spacing=spacing, align=align)
 
 
 def fitSize(fontPath, message, canvasW):
@@ -393,6 +395,49 @@ def fitFontInCanvas(fontPath, message, WH):
 
     return fontDefiner(fontPath, size)
 
+def wrapToCanvas(text, width, font):
+    text = [each + ' ' for each in text.split(' ')]
+    total = []
+    i = 0
+    while i <= len(text):
+        if getSize("".join(text[:i]), font)[0] > width:
+            total.append("".join(text[:i-1]).strip(' '))
+            text = text[i:]
+            i = 0
+        i += 1
+    if len(text) > 0:
+        if getSize(total[-1]+' '+"".join(text).strip(' '), font)[0] < width:
+            total[-1] = total[-1]+' '+"".join(text).strip(' ')
+        else:
+            total.append("".join(text).strip(' '))
+    return total
+""" 
+def wrapToCanvas(text, width, font):
+    try:
+        i = 0 
+        total = []
+        while True:
+            j = i
+            while text[i+1] not in ['\n', ' '] or i+2==len(text):
+                i += 1
+            if getSize(text[:i+1], font)[0] >= width:
+                total.append(text[:j+1].strip(' '))
+                text = text[j+1:]
+                i = 0
+                j = 0
+            else:
+                i += 1
+            if i+2 == len(text):
+                total.append(text.strip(' '))
+
+    except:
+        total.append(text[:j+1].strip(' '))
+        total.append(text[j+1:i+1])
+    
+    return total
+
+"""
+
 
 def getSize(text_string, font):
     """
@@ -414,7 +459,7 @@ def getSize(text_string, font):
     return (text_width, text_height)
 
 
-def getSizeMultiline(text, font):
+def getSizeMultiline(text, font, spacing=0):
     """
     Get sizes of a multiline text
     Substitute to getMultipleSize
@@ -426,7 +471,7 @@ def getSizeMultiline(text, font):
     """
     if type(text) in [list, tuple]:
         text = "\n".join(text)
-    return font.getsize_multiline(text)
+    return font.getsize_multiline(text=text, spacing=spacing)
 
 
 def getMultipleSize(text_wrapped, font):
@@ -550,10 +595,10 @@ def blurImage(image, radius):
     radius: quantity of blur
     """
     image = image.filter(ImageFilter.GaussianBlur(radius=radius))
-    return image
+    return image, ImageDraw.Draw(image)
 
 
-def roundCorners(im, rad):
+def roundCorners(image, rad):
     """
     Rounds the corners of an image to given radius
     im: Image object
@@ -561,6 +606,9 @@ def roundCorners(im, rad):
 
     return Image
     """
+    sampling = 4
+    rad*=sampling
+    im = image.copy().resize((each*sampling for each in image.size))
     mask = Image.new("L", im.size)
     if rad > min(*im.size) // 2:
         rad = min(*im.size) // 2
@@ -575,11 +623,10 @@ def roundCorners(im, rad):
     draw.rectangle([rad, 0, im.width - rad, im.height], fill=255)
     draw.rectangle([0, rad, im.width, im.height - rad], fill=255)
     
-    mask,_ = superSample(mask, 8)
-    im.putalpha(mask)
-    
+    mask = mask.resize(image.size, resample=Image.ANTIALIAS)
+    image.putalpha(mask)
 
-    return im
+    return image
 
 
 def roundCornersAngles(im, rad, angles):
