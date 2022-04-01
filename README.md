@@ -37,21 +37,13 @@ And you're good to go.
 I'ts a very simple module to use.
 Just write this on top of your code:
 ```python
-from funPIL import df
-```
+import funPIL
+```  
 
-Why `df` and not `fp`?
-> "fp" is an old C moniker for "file pointer"  
-> –LSerni, stackoverflow
-
-`df` also stands for drawerFunctions, the old name.  
-And the keys are near on keyboard.  
-
-But you can use any alias you want:  
+from version `0.0.6` there is no more need to import it this way
 ```python
-from funPIL import df as sadPIL
-from funPIL import df as helloWorld
-```
+from funPIL as df
+```  
 
 Most of the functions are supposed to speed up your work with less code. It's only based on my experience and needs tho. Say you need a method to resize an image within a size but keeping the ratio, I got you.  
 You want to invert the colors of the whole canvas? Hold up chief.  
