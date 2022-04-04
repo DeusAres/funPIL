@@ -364,7 +364,7 @@ def fitSize(fontPath, message, canvasW):
     """
     font = fontDefiner(fontPath, 100)
     if type(message) in [list, tuple]:
-        w, _, h, _ = getMultipleSize(message, font)
+        w, h = getSizeMultiline(message, font)
     else:
         w, h = getSize(message, font)
     return 100 * canvasW // max(w, h)
@@ -681,6 +681,7 @@ def replaceColor(image, colorToReplace, replaceColor):
     This method is extremely precise, only corrisponding pixels
     will be replaced with no threshold
     """
+    image = image.convert('RGBA')
     import numpy as np
 
     if type(colorToReplace) in [list, tuple] and type(colorToReplace[0]) in [list,tuple]:
@@ -1106,6 +1107,24 @@ def spreadPattern(canvas, pattern):
             canvas = pasteItem(canvas, cropToRealSize(canvas)[0], w, 0)
         w *= 2
         h *= 2
+
+    return canvas
+    
+def spreadPatternOffset(canvas, pattern):
+    """
+    Spread an image on a canvas like a seamless pattern but with offset
+    canvas: image object
+    pattern: image to spread
+    """
+    tempPattern = backgroundPNG(pattern.width, canvas.height+pattern.height*2)[0]
+    for h in range(0, tempPattern.height, pattern.height):
+        tempPattern = pasteItem(tempPattern, pattern, 0, h)
+
+    alternate = pattern.height//4
+    start = -alternate
+    for x in range(0, canvas.width, pattern.width):
+        canvas = pasteItem(canvas, tempPattern, x, start-alternate)
+        alternate *= -1
 
     return canvas
 
