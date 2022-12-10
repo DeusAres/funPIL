@@ -40,10 +40,7 @@ Just write this on top of your code:
 import funPIL
 ```  
 
-from version `0.0.6` there is no more need to import it this way
-```python
-from funPIL as df
-```  
+
 
 Most of the functions are supposed to speed up your work with less code. It's only based on my experience and needs tho. Say you need a method to resize an image within a size but keeping the ratio, I got you.  
 You want to invert the colors of the whole canvas? Hold up chief.  
