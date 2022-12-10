@@ -168,6 +168,31 @@ def expand(image, x, y):
     return exp_image, ImageDraw.Draw(exp_image)
 
 
+def centerContent(image):
+    """
+    Center everything in the canvas
+    image : PIL.Image
+    return PIL.Image, PIL.ImageDraw
+    """
+    newCanvasB, newCanvasD = backgroundPNG(*image.size)
+    imageB, _ = cropToRealSize(image)
+    newCanvasB = pasteItem(newCanvasB, imageB, *centerItem(newCanvasB, imageB))
+
+    return newCanvasB, newCanvasD
+
+def canvasMargin(draw, color='red', width=10):
+    """
+    Mostly for debugging, shows margin of the canvas
+    image : PIL.Image
+    draw : PIL.ImageDraw
+    color : string(hex, name), tuple
+    width : width of margin
+
+    no return required
+    """
+    w, h = draw.im.size
+    draw.rectangle([0, 0, w, h], outline=color, width=width)
+
 # -------------------------------- #
 
 
@@ -388,7 +413,8 @@ def fitFontInCanvas(fontPath, message, WH):
         w, _, h, _ = getMultipleSize(message, font)
     else:
         w, h = getSize(message, font)
-
+    ascDesc = font.getmetrics()
+    h += ascDesc[0] - ascDesc[1]
     ratio = min(W / w, H / h)
     size = int(100*ratio)
 
@@ -581,7 +607,7 @@ def strokeImage(original, stroke=1, stroke_color="#FFFFFF", smoother=1):
         contour = contour.filter(ImageFilter.GaussianBlur(radius=stroke))
 
     contour = fillOpaque(contour)
-    contour = blurImage(contour, 1)
+    contour = blurImage(contour, 1)[0]
     original = pasteItem(contour, original, 0, 0)
 
     return original
